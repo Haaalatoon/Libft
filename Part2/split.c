@@ -3,8 +3,7 @@
 
 size_t count_words(char const *s, char c)
 {
-	size_t count = 0, len;
-	size_t *len_word;
+	size_t count = 0;
 
 	while (*s)
 	{
