@@ -19,7 +19,7 @@ char	*ft_strchr(const char *s, int c)
 	found = (char *)s;
 	while (*found)
 	{
-		if (*found == c)
+		if (*found == (unsigned char)c)
 			return (found);
 		found++;
 	}
