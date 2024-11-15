@@ -1,10 +1,11 @@
 #include <stdio.h>
 
-size_t count_words(char const *s, char c)
+size_t	count_words(char const *s, char c)
 {
-	size_t count = 0, len;
-	size_t *len_word;
+	size_t	count;
+	size_t	*len_word;
 
+	count = 0, len;
 	while (*s)
 	{
 		while (*s == c && *s)
@@ -16,36 +17,37 @@ size_t count_words(char const *s, char c)
 				++s;
 		}
 	}
-	return count;
+	return (count);
 }
 
-size_t *count_lengths(char const *s, char c)
+size_t	*count_lengths(char const *s, char c)
 {
-    size_t len;
-    size_t *len_word, *ptr;
-    size_t word_count = count_words(s, c);
+	size_t	len;
+	size_t	word_count;
 
-    len_word = (size_t *)malloc(word_count * sizeof(size_t));
-    if (!len_word)
-        return NULL;
-    ptr = len_word;
-    while (*s)
-    {
-        while (*s == c && *s)
-            ++s;
-        if (*s && *s != c)
-        {
-            len = 0;
-            while (*s && *s != c)
-            {
-                ++s;
-                ++len;
-            }
-            *len_word = len;
-            ++len_word;
-        }
-    }
-    return ptr;
+	size_t *len_word, *ptr;
+	word_count = count_words(s, c);
+	len_word = (size_t *)malloc(word_count * sizeof(size_t));
+	if (!len_word)
+		return (NULL);
+	ptr = len_word;
+	while (*s)
+	{
+		while (*s == c && *s)
+			++s;
+		if (*s && *s != c)
+		{
+			len = 0;
+			while (*s && *s != c)
+			{
+				++s;
+				++len;
+			}
+			*len_word = len;
+			++len_word;
+		}
+	}
+	return (ptr);
 }
 
 {
@@ -53,5 +55,5 @@ size_t *count_lengths(char const *s, char c)
 	char const s2[] = "Hi be er   ada      i  ";
 
 	printf("%zu\t %zu\n", count_words(s1, ' '), count_words(s2, ' '));
-	return 0;
+	return (0);
 }

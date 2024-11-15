@@ -6,7 +6,7 @@
 /*   By: hrhilane <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 18:08:36 by hrhilane          #+#    #+#             */
-/*   Updated: 2024/11/10 21:24:52 by hrhilane         ###   ########.fr       */
+/*   Updated: 2024/11/15 20:53:48 by hrhilane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 size_t	ft_strlen(const char *str)
 {
-	const char *s = str;
+	const char	*s = str;
 
 	while (*s != '\0')
-	s++;
+		s++;
 	return (s - str);
-	 
 }
