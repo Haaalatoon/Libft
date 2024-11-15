@@ -6,7 +6,7 @@
 /*   By: hrhilane <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 22:11:27 by hrhilane          #+#    #+#             */
-/*   Updated: 2024/11/15 22:12:17 by hrhilane         ###   ########.fr       */
+/*   Updated: 2024/11/16 00:06:37 by hrhilane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (NULL);
 	if (ft_strlen(s1) == 0)
 		return (ft_strdup(s1));
-	/*prevents potential issues related to memory management. Failed free*/
-	/*returning pointer to another location than the old location of s1*/
 	if (set == NULL || ft_strlen(set) == 0)
 		return (ft_strdup(s1));
 	end = ft_strlen(s1) - 1;
