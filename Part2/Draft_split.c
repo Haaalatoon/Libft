@@ -1,4 +1,3 @@
-// Online C compiler to run C program online
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,18 +7,6 @@ unsigned int	abs_value(int n)
 	if (n >= 0)
 		return (n);
 	return (-n);
-}
-
-
-
-void	*case_int_min(void)
-{
-	char	*number;
-
-	number = (char *)malloc(12 * sizeof(char));
-	if (!number)
-		return (NULL);
-	strncpy(number, "-2147483648", 12);
 }
 
 char	*fill_number(char *number, unsigned int num, int size)
@@ -67,7 +54,7 @@ char	*ft_itoa(int n)
 }
 int main() {
     // Write C code here
-    printf("%s\n", ft_itoa(0));
+    printf("%s\n", ft_itoa(2147483647));
 
     return 0;
 }
