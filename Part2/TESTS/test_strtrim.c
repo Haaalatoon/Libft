@@ -19,18 +19,6 @@ size_t ft_strlen(const char *s)
 	return count;
 }
 
-char *ft_strdup(const char *s)
-{
-	char *dup;
-
-	if (s == NULL)
-		return NULL;
-	dup = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (dup == NULL)
-		return NULL;
-	ft_strlcpy(dup, s, ft_strlen(s) + 1);
-	return dup;
-}
 
 char *ft_strchr(const char *s, int c)
 {
@@ -78,110 +66,136 @@ void *ft_memcpy(void *dest, const void *src, size_t n)
 	return dest;
 }
 
-
-char *ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t start = 0, end, i;
-	char *s_trim;
+	size_t	start;
+	size_t	end;
+	char	*trimmed;
 
-	if (s1 == NULL)
-		return NULL;
-	if (ft_strlen(s1) == 0)
-		return (ft_strdup(s1));
-	/*prevents potential issues related to memory management. Failed free*/
-	/*returning pointer to another location than the old location of s1*/
-	if (set == NULL || ft_strlen(set) == 0)
-		return (ft_strdup(s1));
-
+	if (!s1 || !set || ft_strlen(s1) == 0 || ft_strlen(set) == 0)
+		return ((char *)s1);
+	start = 0;
 	end = ft_strlen(s1) - 1;
 	while (s1[start] && ft_strchr(set, s1[start]))
 		start++;
 	while (end > start && ft_strchr(set, s1[end]))
 		end--;
-
 	if (start > end)
 	{
-		s_trim = (char *)malloc(1 * sizeof(char));
-		if (s_trim == NULL)
-			return NULL;
-		s_trim[0] = '\0';
-		return s_trim;
+		trimmed = (char *)malloc(1 * sizeof(char));
+		if (trimmed == NULL)
+			return (NULL);
+		trimmed[0] = '\0';
+		return (trimmed);
 	}
+	trimmed = (char *)malloc((end - start + 2) * sizeof(char));
+	ft_strlcpy(trimmed, s1 + start, end - start + 2);
+	return (trimmed);
+}
 
-	s_trim = (char *)malloc((end - start + 2) * sizeof(char));
 
-	i = 0;
-	while (start <= end)
-		s_trim[i++] = s1[start++];
-	s_trim[i] = '\0';
-	return s_trim;
+#include <stdio.h>
+#include <string.h>
+
+void print_result(char *test_name, char *s1, char *set, char *result)
+{
+    printf("\nTest: %s\n", test_name);
+    printf("s1: [%s]\n", s1);
+    printf("set: [%s]\n", set ? set : "NULL");
+    printf("result: [%s]\n", result ? result : "NULL");
+    printf("------------------------\n");
 }
 
 int main(void)
 {
-    char *result;
+    char    *result;
+    char    *s1;
+    char    *set;
 
-    // Test 1: Basic Test with Trimming Characters
-    char s1_1[] = "  Hello, World!  ";
-    char set_1[] = " ";
-    result = ft_strtrim(s1_1, set_1);
-    printf("Test 1:\nExpected: 'Hello, World!'\nResult: '%s'\n\n", result);
-    free(result);
+    // Basic tests
+    s1 = "   Hello World   ";
+    set = " ";
+    result = ft_strtrim(s1, set);
+    print_result("Basic space trim", s1, set, result);
 
-    // Test 2: No Characters to Trim
-    char s1_2[] = "Hello, World!";
-    char set_2[] = "xyz";
-    result = ft_strtrim(s1_2, set_2);
-    printf("Test 2:\nExpected: 'Hello, World!'\nResult: '%s'\n\n", result);
-    free(result);
+    s1 = "...Hello World...";
+    set = ".";
+    result = ft_strtrim(s1, set);
+    print_result("Basic dot trim", s1, set, result);
 
-    // Test 3: All Characters Should Be Trimmed
-    char s1_3[] = "xxxxxx";
-    char set_3[] = "x";
-    result = ft_strtrim(s1_3, set_3);
-    printf("Test 3:\nExpected: ''\nResult: '%s'\n\n", result);
-    free(result);
+    // Edge cases - Empty strings
+    s1 = "";
+    set = " ";
+    result = ft_strtrim(s1, set);
+    print_result("Empty string", s1, set, result);
 
-    // Test 4: Empty s1
-    char s1_4[] = "";
-    char set_4[] = " ";
-    result = ft_strtrim(s1_4, set_4);
-    printf("Test 4:\nExpected: ''\nResult: '%s'\n\n", result);
-    free(result);
+    s1 = "Hello World";
+    set = "";
+    result = ft_strtrim(s1, set);
+    print_result("Empty set", s1, set, result);
 
-    // Test 5: NULL s1
-    char *s1_5 = NULL;
-    char set_5[] = " ";
-    result = ft_strtrim(s1_5, set_5);
-    printf("Test 5:\nExpected: NULL\nResult: '%s'\n\n", result);
+    // Edge cases - NULL
+    s1 = NULL;
+    set = " ";
+    result = ft_strtrim(s1, set);
+    print_result("NULL string", s1, set, result);
 
-    // Test 6: NULL set
-    char s1_6[] = "  Hello  ";
-    char *set_6 = NULL;
-    result = ft_strtrim(s1_6, set_6);
-    printf("Test 6:\nExpected: '  Hello  '\nResult: '%s'\n\n", result);
-    free(result);
+    s1 = "Hello World";
+    set = NULL;
+    result = ft_strtrim(s1, set);
+    print_result("NULL set", s1, set, result);
 
-    // Test 7: Entire String Trimmed to Empty (start > end)
-    char s1_7[] = "abccba";
-    char set_7[] = "abc";
-    result = ft_strtrim(s1_7, set_7);
-    printf("Test 7:\nExpected: ''\nResult: '%s'\n\n", result);
-    free(result);
+    // String containing only trim characters
+    s1 = "      ";
+    set = " ";
+    result = ft_strtrim(s1, set);
+    print_result("Only spaces", s1, set, result);
 
-    // Test 8: set Contains Characters Not in s1
-    char s1_8[] = "Hello, World!";
-    char set_8[] = "xyz";
-    result = ft_strtrim(s1_8, set_8);
-    printf("Test 8:\nExpected: 'Hello, World!'\nResult: '%s'\n\n", result);
-    free(result);
+    s1 = "...";
+    set = ".";
+    result = ft_strtrim(s1, set);
+    print_result("Only trim chars", s1, set, result);
 
-    // Test 9: s1 Starts and Ends with Trim Characters
-    char s1_9[] = "**Hello, World!**";
-    char set_9[] = "*";
-    result = ft_strtrim(s1_9, set_9);
-    printf("Test 9:\nExpected: 'Hello, World!'\nResult: '%s'\n\n", result);
-    free(result);
+    // Multiple trim characters
+    s1 = "#@!Hello World!@#";
+    set = "#@!";
+    result = ft_strtrim(s1, set);
+    print_result("Multiple trim chars", s1, set, result);
 
-    return 0;
+    // Trim characters in middle (shouldn't be trimmed)
+    s1 = "...Hello...World...";
+    set = ".";
+    result = ft_strtrim(s1, set);
+    print_result("Trim chars in middle", s1, set, result);
+
+    // Single character string
+    s1 = "a";
+    set = "a";
+    result = ft_strtrim(s1, set);
+    print_result("Single char string equals set", s1, set, result);
+
+    // No trim needed
+    s1 = "Hello World";
+    set = "xyz";
+    result = ft_strtrim(s1, set);
+    print_result("No trim needed", s1, set, result);
+
+    // Complex cases
+    s1 = "\t\n Hello \t\n World \t\n";
+    set = " \t\n";
+    result = ft_strtrim(s1, set);
+    print_result("Whitespace chars", s1, set, result);
+
+    s1 = "aabbccHello Worldccbbaa";
+    set = "abc";
+    result = ft_strtrim(s1, set);
+    print_result("Multiple repeating trim chars", s1, set, result);
+
+    // Overlapping characters
+    s1 = "HelloHelloWorldWorldHelloHello";
+    set = "Hello";
+    result = ft_strtrim(s1, set);
+    print_result("Overlapping trim string", s1, set, result);
+
+    return (0);
 }

@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calloc.c                                           :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrhilane <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/15 21:24:50 by hrhilane          #+#    #+#             */
-/*   Updated: 2024/11/15 21:48:40 by hrhilane         ###   ########.fr       */
+/*   Created: 2024/11/18 12:13:09 by hrhilane          #+#    #+#             */
+/*   Updated: 2024/11/18 12:13:11 by hrhilane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t number, size_t size)
+int	ft_isalnum(int c)
 {
-	void	*arr;
-
-	if (size == 0 || number == 0)
-		return (NULL);
-	arr = malloc(number * size);
-	if (arr == NULL)
-		return (NULL);
-	ft_memset(arr, 0, number * size);
-	return (arr);
+	if (ft_isalpha(c) || ft_isdigit(c))
+		return (1);
+	return (0);
 }

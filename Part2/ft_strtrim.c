@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strtrim.c                                          :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrhilane <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 22:11:27 by hrhilane          #+#    #+#             */
-/*   Updated: 2024/11/16 00:06:37 by hrhilane         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:00:50 by hrhilane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@ char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	start;
 	size_t	end;
-	char	*str_trim;
+	char	*trimmed;
 
+	if (!s1 || !set || ft_strlen(s1) == 0 || ft_strlen(set) == 0)
+		return ((char *)s1);
 	start = 0;
-	if (s1 == NULL)
-		return (NULL);
-	if (ft_strlen(s1) == 0)
-		return (ft_strdup(s1));
-	if (set == NULL || ft_strlen(set) == 0)
-		return (ft_strdup(s1));
 	end = ft_strlen(s1) - 1;
 	while (s1[start] && ft_strchr(set, s1[start]))
 		start++;
@@ -32,16 +28,13 @@ char	*ft_strtrim(char const *s1, char const *set)
 		end--;
 	if (start > end)
 	{
-		str_trim = (char *)malloc(1 * sizeof(char));
-		if (str_trim == NULL)
+		trimmed = (char *)malloc(1 * sizeof(char));
+		if (trimmed == NULL)
 			return (NULL);
-		str_trim[0] = '\0';
-		return (str_trim);
+		trimmed[0] = '\0';
+		return (trimmed);
 	}
-	str_trim = (char *)malloc(((end - start + 1) + 1) * sizeof(char));
-	i = 0;
-	while (start <= end)
-		str_trim[i++] = s1[start++];
-	str_trim[i] = '\0';
-	return (str_trim);
+	trimmed = (char *)malloc((end - start + 2) * sizeof(char));
+	ft_strlcpy(trimmed, s1 + start, end - start + 2);
+	return (trimmed);
 }
